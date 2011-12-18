@@ -74,15 +74,49 @@ func main() {
 		im.Add(i, buf)
 	}
 
-	fmt.Printf("char image_data[] = {")
+	fmt.Printf("char image_data[] = {\n    ")
+	x := 0
 	for i, b := range im.Data {
 		if i > 0 {
 			fmt.Printf(", ")
-			if i%25 == 0 {
-				fmt.Printf("\n")
+			x += 2
+			if x > 70 {
+				x = 0
+				fmt.Printf("\n    ")
 			}
 		}
-		fmt.Printf("0x%x", b)
+		switch {
+		/*				case b >= 'a' && b <= 'z' ||
+							b >= 'A' && b <= 'Z' ||
+							b >= '0' && b <= '9' ||
+							b == ' ' || b == '.' || b == ',':
+							x++
+							fmt.Printf("%c", b)
+						case b < 10:
+							x += 2
+							fmt.Printf("\\%d", b)
+						case b == 10:
+							x += 2
+							fmt.Printf("\\n")
+						case b == 13:
+							x += 2
+							fmt.Printf("\\r")*/
+		case b >= 'a' && b <= 'z' ||
+			b >= 'A' && b <= 'Z' ||
+			b >= '0' && b <= '9' ||
+			b == ' ' || b == '.' || b == ',':
+			x += 3
+			fmt.Printf("'%c'", b)
+		case b < 10:
+			x--
+			fallthrough
+		case b < 100:
+			x--
+			fallthrough
+		default:
+			x += 3
+			fmt.Printf("%d", b)
+		}
 	}
 	fmt.Printf("};\n\n")
 
