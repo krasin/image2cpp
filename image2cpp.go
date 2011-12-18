@@ -84,6 +84,17 @@ func main() {
 		}
 		fmt.Printf("%x", b)
 	}
-	fmt.Printf("};\n")
-	fmt.Printf("Image.Sectors: %v\n", im.Sectors)
+	fmt.Printf("};\n\n")
+
+	fmt.Printf("void copy_sector_data(char* buffer, int block_number) {\n")
+	fmt.Printf("  switch (block_number) {\n")
+	for block_number, intervals := range im.Sectors {
+		fmt.Printf("  case %d:\n", block_number)
+		for _, interval := range intervals {
+			fmt.Printf("    memcpy(buffer+%d, image_data+%d, %d);\n", interval.Off, interval.DataOff, interval.Len)
+		}
+		fmt.Printf("    break;\n")
+	}
+	fmt.Printf("  }\n")
+	fmt.Printf("}\n\n")
 }
