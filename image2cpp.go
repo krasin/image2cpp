@@ -78,11 +78,11 @@ func main() {
 	for i, b := range im.Data {
 		if i > 0 {
 			fmt.Printf(", ")
-			if i%30 == 0 {
+			if i%25 == 0 {
 				fmt.Printf("\n")
 			}
 		}
-		fmt.Printf("%x", b)
+		fmt.Printf("0x%x", b)
 	}
 	fmt.Printf("};\n\n")
 
