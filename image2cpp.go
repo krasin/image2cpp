@@ -73,5 +73,17 @@ func main() {
 		}
 		im.Add(i, buf)
 	}
-	fmt.Printf("Image: %v\n", im)
+
+	fmt.Printf("char image_data[] = {")
+	for i, b := range im.Data {
+		if i > 0 {
+			fmt.Printf(", ")
+			if i%30 == 0 {
+				fmt.Printf("\n")
+			}
+		}
+		fmt.Printf("%x", b)
+	}
+	fmt.Printf("};\n")
+	fmt.Printf("Image.Sectors: %v\n", im.Sectors)
 }
